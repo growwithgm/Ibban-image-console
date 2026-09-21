@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ibBan Image Generation Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E7E2DA; --panel:#F3EFE9; --panel-2:#EDE8E0;
+  --ink:#231E1B; --ink-soft:#6B635B; --line:#CDC5BA; --line-soft:#DDD6CC;
+  --madder:#8E2F3C; --moss:#5A6A2E; --indigo:#2E3E5C; --saffron:#AB6320;
+  --on-accent:#FBF8F4;
+  --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --r:3px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1A1518; --panel:#221C20; --panel-2:#272026;
+    --ink:#EAE4DB; --ink-soft:#A2988D; --line:#3D343A; --line-soft:#332B31;
+    --madder:#D4707C; --moss:#A3B56A; --indigo:#93A7CC; --saffron:#D89A56;
+    --on-accent:#1A1518;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1A1518; --panel:#221C20; --panel-2:#272026;
+  --ink:#EAE4DB; --ink-soft:#A2988D; --line:#3D343A; --line-soft:#332B31;
+  --madder:#D4707C; --moss:#A3B56A; --indigo:#93A7CC; --saffron:#D89A56;
+  --on-accent:#1A1518;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--madder)}
+:focus-visible{outline:2px solid var(--madder);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-.01em;margin:0}
+.brand span{color:var(--madder)}
+.top-note{color:var(--ink-soft);font-size:13px;margin:0}
+.top-sel{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--madder)}
+
+.shell{max-width:1080px;margin:0 auto;padding:0 20px 90px;display:grid;gap:30px}
+@media (min-width:920px){.shell{grid-template-columns:174px minmax(0,1fr);gap:46px;padding-top:6px}}
+nav.rail{padding-top:22px}
+@media (min-width:920px){nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);align-self:start;height:max-content}}
+.rail ol{list-style:none;margin:0;padding:0 0 4px;display:flex;gap:6px;overflow-x:auto}
+@media (min-width:920px){.rail ol{display:block;overflow:visible}}
+.rail a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink-soft);font-size:13.5px;padding:5px 10px;border:1px solid var(--line-soft);border-radius:var(--r)}
+@media (min-width:920px){.rail a{border:0;border-left:2px solid var(--line-soft);border-radius:0;padding:5px 0 5px 12px}}
+.rail a:hover{color:var(--ink);border-color:var(--madder)}
+
+main{padding-top:22px;min-width:0}
+h1.page{font-family:var(--serif);font-weight:600;font-size:clamp(27px,5vw,38px);line-height:1.12;letter-spacing:-.02em;margin:0 0 12px;max-width:20ch}
+.lede p{color:var(--ink-soft);margin:0;font-size:15.5px;max-width:62ch}
+
+section{margin-top:50px;min-width:0}
+h2{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.2;margin:0 0 4px;letter-spacing:-.01em}
+h2 .num{color:var(--madder);font-variant-numeric:tabular-nums;margin-right:8px}
+.sub{color:var(--ink-soft);margin:0 0 18px;max-width:62ch}
+h3{font-family:var(--sans);font-weight:600;font-size:15px;margin:26px 0 6px}
+p{max-width:64ch}
+
+.passes{display:grid;gap:14px;margin:0;padding:0}
+@media (min-width:700px){.passes{grid-template-columns:repeat(3,1fr)}}
+.pass{list-style:none;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 16px 16px}
+.pass .tag{font-family:var(--mono);font-size:11.5px;color:var(--madder);display:block;margin-bottom:7px}
+.pass b{display:block;font-size:14px;margin-bottom:4px}
+.pass p{font-size:13.6px;color:var(--ink-soft);margin:0;max-width:none}
+.formula{font-family:var(--mono);font-size:13.5px;color:var(--ink-soft);margin-top:16px}
+.formula b{color:var(--ink);font-weight:400}
+
+/* categories */
+.cats{display:grid;gap:18px;margin-bottom:18px}
+@media (min-width:760px){.cats{grid-template-columns:1fr 1fr}}
+.cat-group h4{font-family:var(--sans);font-size:12.8px;font-weight:600;color:var(--ink-soft);margin:0 0 7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--r);padding:6px 11px;cursor:pointer;line-height:1.2;
+}
+.chip:hover{border-color:var(--madder)}
+.chip[aria-pressed="true"]{background:var(--madder);border-color:var(--madder);color:var(--on-accent)}
+.excluded{font-size:13px;color:var(--ink-soft);margin:0 0 20px}
+
+.decl{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px}
+.decl-grid{display:grid;gap:14px}
+@media (min-width:640px){.decl-grid{grid-template-columns:1fr 1fr}}
+.decl label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.decl input,.decl select{
+  width:100%;font-family:var(--sans);font-size:14px;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;
+}
+.decl select:disabled{opacity:.65}
+.decl-status{font-size:13.2px;margin:13px 0 0;max-width:none}
+.decl-status.missing{color:var(--madder)}
+.decl-status.ok{color:var(--moss)}
+
+.prompt-wrap{margin-top:8px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.prompt-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 14px;border-bottom:1px solid var(--line-soft);background:var(--panel-2)}
+.prompt-head .who{font-size:13.5px;font-weight:500}
+.prompt-head .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}
+.spacer{flex:1 1 auto}
+.copy{font-family:var(--sans);font-size:13px;font-weight:500;background:var(--madder);color:var(--on-accent);border:1px solid var(--madder);border-radius:var(--r);padding:6px 15px;cursor:pointer;transition:background .12s ease,border-color .12s ease}
+.copy:hover{filter:brightness(1.08)}
+.copy.done{background:var(--moss);border-color:var(--moss)}
+.copy.small{font-size:12.5px;padding:5px 12px}
+@media (prefers-reduced-motion: reduce){.copy{transition:none}}
+.toggle{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft);cursor:pointer}
+.toggle input{accent-color:var(--madder);width:15px;height:15px;margin:0}
+pre.prompt{
+  margin:0;padding:16px 16px 16px 20px;
+  font-family:var(--mono);font-size:12.2px;line-height:1.62;
+  white-space:pre;overflow-x:auto;max-height:430px;overflow-y:auto;
+  background:repeating-linear-gradient(to bottom,var(--madder) 0 5px,transparent 5px 10px) left/3px 100% no-repeat;
+}
+pre.prompt.short{max-height:none}
+
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.8px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{background:var(--panel-2);font-weight:600;font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);color:var(--madder);width:34px}
+td.scope{white-space:nowrap;font-size:13px}
+.scope-sku{color:var(--indigo)}
+.scope-prod{color:var(--saffron)}
+code{font-family:var(--mono);font-size:.9em;background:var(--panel-2);padding:1px 4px;border-radius:2px}
+
+ul.plain,ol.plain{padding-left:19px;margin:0 0 6px;max-width:64ch}
+ul.plain li,ol.plain li{margin-bottom:8px}
+ul.plain li::marker,ol.plain li::marker{color:var(--madder)}
+
+.strip{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 16px;padding:0;list-style:none}
+.strip li{font-family:var(--mono);font-size:12px;padding:5px 9px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line-soft)}
+.strip li.sku{border-color:var(--indigo);color:var(--indigo)}
+.strip li.prod{border-color:var(--saffron);color:var(--saffron)}
+
+.note{font-size:13.6px;color:var(--ink-soft);border-left:2px solid var(--line);padding-left:13px;max-width:62ch;margin-top:14px}
+footer{margin-top:58px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12.8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <p class="brand">ib<span>Ban</span> image generation guide</p>
+    <p class="top-note">Listing images for hand-embroidered womenswear</p>
+    <p class="top-sel" id="top-sel"></p>
+  </div>
+</header>
+
+<div class="shell">
+
+  <nav class="rail" aria-label="Sections">
+    <ol>
+      <li><a href="#run">The run</a></li>
+      <li><a href="#product">The product</a></li>
+      <li><a href="#prompt-a">Prompt A</a></li>
+      <li><a href="#prompt-b">Prompt B</a></li>
+      <li><a href="#shots">Shot map</a></li>
+      <li><a href="#batches">Batches</a></li>
+      <li><a href="#qa">QA</a></li>
+      <li><a href="#fixes">Fixes</a></li>
+      <li><a href="#upload">Upload</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="lede">
+      <h1 class="page">Pick the category, copy the prompt, every colour covered.</h1>
+      <p>You never write a prompt by hand. The category sets the rules, and the master prompts make the AI write the final image prompts after it has looked at the real product photographs.</p>
+    </div>
+
+    <section id="run">
+      <h2><span class="num">1</span>The run</h2>
+      <p class="sub">Three passes, in this order. Pass 3 comes last so the shared images match a batch you have already approved.</p>
+      <ol class="passes">
+        <li class="pass">
+          <span class="tag">pass 1 — prompt writing</span>
+          <b>Pick the category, paste Prompt A</b>
+          <p>Choose it in section 2, attach front and back for every colourway, paste Prompt A. It returns one prompt per colour plus a HERO COLOUR block. No images yet.</p>
+        </li>
+        <li class="pass">
+          <span class="tag">pass 2 — per SKU</span>
+          <b>One new chat per colour</b>
+          <p>Attach that colour's front and back, paste that colour's block. Five images for that variant.</p>
+        </li>
+        <li class="pass">
+          <span class="tag">pass 3 — per product</span>
+          <b>Run Prompt B once</b>
+          <p>Hero colour's photographs plus its HERO COLOUR block. Three shared images used across every variant.</p>
+        </li>
+      </ol>
+      <p class="formula">Image count: (5 &#215; colourways) + 3. <b>A product in 5 colours = 28 images.</b></p>
+    </section>
+
+    <section id="product">
+      <h2><span class="num">2</span>The product</h2>
+      <p class="sub">Press the store category. It sets the product type, how it is worn and the shot rules inside both prompts, and it overrides what the AI reads from the photos.</p>
+
+      <div class="cats" id="cats"></div>
+      <p class="excluded">Holiday, New In, Sale and Girls hold mixed products, so they have no button — press the product's own type instead.</p>
+
+      <div class="decl">
+        <div class="decl-grid">
+          <div>
+            <label for="g-type">What is it? <span style="font-weight:400;color:var(--ink-soft)">— refine if needed</span></label>
+            <input type="text" id="g-type" placeholder="Press a category first" autocomplete="off">
+          </div>
+          <div>
+            <label for="g-worn">How is it worn or used?</label>
+            <select id="g-worn" disabled><option value="">Press a category first</option></select>
+          </div>
+        </div>
+        <p class="decl-status missing" id="decl-status">No category yet. If you copy now, ChatGPT will ask you before writing anything.</p>
+      </div>
+    </section>
+
+    <section id="prompt-a">
+      <h2><span class="num">3</span>Master Prompt A — per SKU</h2>
+      <p class="sub">Attach every colourway's front and back photographs, then paste this. It writes the prompts; it does not generate images.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="who">Prompt A</span>
+          <span class="meta">writes 1 prompt per colour</span>
+          <span class="spacer"></span>
+          <label class="toggle"><input type="checkbox" id="onemodel"> Same model for all colours</label>
+          <button class="copy" type="button" data-copy="#src-a" data-prefix="#onemodel">Copy prompt</button>
+        </div>
+        <pre class="prompt" id="src-a"></pre>
+      </div>
+      <p class="note">Tick the toggle to prepend <code>ONE-MODEL</code>, which makes every colourway use the same woman instead of a different one.</p>
+    </section>
+
+    <section id="prompt-b">
+      <h2><span class="num">4</span>Master Prompt B — per product</h2>
+      <p class="sub">Run once per product. Attach the hero colour's front and back, and paste the HERO COLOUR block returned at the end of Prompt A. Uses the same category you pressed in section 2.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="who">Prompt B</span>
+          <span class="meta">writes the 3 shared images</span>
+          <span class="spacer"></span>
+          <button class="copy" type="button" data-copy="#src-b">Copy prompt</button>
+        </div>
+        <pre class="prompt" id="src-b"></pre>
+      </div>
+    </section>
+
+    <section id="shots">
+      <h2><span class="num">5</span>Shot map</h2>
+      <p class="sub" id="shots-sub">Five shots follow the colour. Three are made once and shared.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>#</th><th>Shot</th><th>Scope</th><th>Why it exists</th></tr></thead>
+          <tbody id="shots-body"></tbody>
+        </table>
+      </div>
+      <p class="note">The two text images are shared on purpose: generating them per colour risks several different sets of numbers. The lifestyle shot is shared to hold the count down, and it is the first one to move back to per SKU if the hero colour in the gallery ever starts causing confusion.</p>
+    </section>
+
+    <section id="batches">
+      <h2><span class="num">6</span>Running the batches</h2>
+      <ol class="plain">
+        <li><b>New chat per colour.</b> Leftover images from another colour in the context make the model blend palettes.</li>
+        <li><b>Attach first, paste second.</b> The block header names exactly which two files to attach for that colour.</li>
+        <li><b>Ask for all five in one batch.</b> If the tool returns fewer, ask for 1&ndash;3 then 4&ndash;5, pasting the model card and outfit lock again in the second request.</li>
+        <li><b>Keep shot 1 as the hero.</b> It becomes the Shopify variant image and the feed image; if it comes back weak, regenerate it rather than promoting another shot.</li>
+        <li><b>Run Prompt B last</b>, after the hero colour's batch, so the shared images match a set you have already approved.</li>
+      </ol>
+    </section>
+
+    <section id="qa">
+      <h2><span class="num">7</span>QA before upload</h2>
+      <p class="sub">Check every batch against the reference photograph. Drift concentrates in the macros and in movement, where less of the product is in frame.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Check</th><th>What fails in practice</th></tr></thead>
+          <tbody>
+            <tr><td>Product type unchanged</td><td>A dress or tunic becomes an open coat, a bag gains straps or pockets, swimwear changes coverage</td></tr>
+            <tr><td>Embroidery matches</td><td>Motifs invented, mirrored, or scaled up to fill a macro frame</td></tr>
+            <tr><td>Thread and ground colour hold</td><td>Colour shifts a step warmer or cooler between shots</td></tr>
+            <tr><td>Styling base identical</td><td>A piece changes colour or cut in a crop, or trousers appear under a piece worn on its own</td></tr>
+            <tr><td>Same model across the batch</td><td>Face changes between shots in the same run</td></tr>
+            <tr><td>Model reads under 30</td><td>Styling or lighting ages her</td></tr>
+            <tr><td>Scale looks right</td><td>A bag, wallet or piece of jewellery grows or shrinks against the body</td></tr>
+            <tr><td>Safe square respected</td><td>Head, hem or product edge sits outside the central square and a 1:1 crop cuts it</td></tr>
+            <tr><td>No stray text</td><td>Invented labels, tags or signage on shots 1 to 5 and the lifestyle shot</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="fixes">
+      <h2><span class="num">8</span>Fixes</h2>
+      <p class="sub">Regenerate single shots. Re-running a whole batch changes the model and forces a full recheck.</p>
+
+      <h3>The product type changed</h3>
+      <p>Attach the original product photograph, then send this. It uses the category pressed in section 2.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="meta">product type changed</span>
+          <span class="spacer"></span>
+          <button class="copy small" type="button" data-copy="#src-fix0">Copy</button>
+        </div>
+        <pre class="prompt short" id="src-fix0"></pre>
+      </div>
+
+      <h3>The styling base drifted in one shot</h3>
+      <p>Attach the approved hero image, then send this.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="meta">styling drift</span>
+          <span class="spacer"></span>
+          <button class="copy small" type="button" data-copy="#src-fix1">Copy</button>
+        </div>
+<pre class="prompt short" id="src-fix1">Regenerate this shot only. Keep the model, the product, the background and the
+styling base identical to the attached image - every piece the same colour,
+fabric and cut. Change nothing except the camera angle and crop.</pre>
+      </div>
+
+      <h3>The embroidery does not match</h3>
+      <p>Attach the original product photograph, then send this.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="meta">embroidery mismatch</span>
+          <span class="spacer"></span>
+          <button class="copy small" type="button" data-copy="#src-fix2">Copy</button>
+        </div>
+<pre class="prompt short" id="src-fix2">The embroidery in this image does not match the attached reference. Regenerate
+this shot only, copying every motif, thread colour, placement, scale and
+density exactly from the attached photograph. Keep the model, styling base,
+background and camera angle identical to the image you just produced.</pre>
+      </div>
+    </section>
+
+    <section id="upload">
+      <h2><span class="num">9</span>Uploading to Shopify</h2>
+      <p class="sub">Gallery order: the selected colour's five first, the shared three after.</p>
+      <ul class="strip" id="strip"></ul>
+      <ul class="plain">
+        <li><b>Assign shot 1 to its variant</b> in Media, not just upload it to the gallery. Without the assignment the swatch does not change the image, and the feed falls back to the product's first image, so a Cream shopper sees a Black ad.</li>
+        <li>The three shared images are assigned to no variant and stay at the end of the gallery.</li>
+        <li>Alt text: product name plus colour. File name readable, for example <code>nuria-dress-black-front.webp</code>.</li>
+        <li>Export as WebP or JPEG, roughly 200&ndash;300&nbsp;KB each.</li>
+        <li>After changing a main image, the Meta catalogue keeps serving the old <code>image_link</code> until the next feed sync.</li>
+      </ul>
+    </section>
+
+    <footer>GROW NEST &nbsp; ibban.com &nbsp; v1.3</footer>
+  </main>
+</div>
+
+<p class="sr" role="status" aria-live="polite" id="live"></p>
+
+<!-- ============================================================ templates -->
+
+<script type="text/plain" id="tpl-a">
+PRODUCT DECLARATION (mine - this overrides anything you read from the photos)
+PRODUCT TYPE: {TYPE}
+HOW IT IS WORN OR USED: {WORN}
+PRODUCT CLASS: {CLASS}
+If any line says [NOT GIVEN], ask me for it before writing anything else.
+
+ROLE
+You are an e-commerce art director and AI image-prompt engineer for ibBan,
+a Madrid hand-embroidered womenswear and accessories brand.
+
+TASK
+I am attaching reference photographs of ONE product in several colourways
+(front and back for each colour). Analyse them, then write ONE complete,
+copy-paste-ready image-generation prompt per colourway.
+DO NOT generate any images in this reply. Prompts only.
+
+STEP 1 - ANALYSE (keep short)
+My PRODUCT DECLARATION fixes what the product is and how it is worn or used.
+Never reclassify it from the photographs: a dress stays a dress, a tunic stays
+a tunic, a bag stays that kind of bag, and nothing becomes a coat, jacket or
+open layer unless I declared it that way. If the photographs look like a
+different product type from my declaration, write ONE line saying so before
+the prompts, then follow my declaration anyway.
+Product overall: shape and silhouette, length or size, closures, neckline or
+opening, sleeves, straps or handles, how the material behaves, where the
+embroidery sits.
+Per colourway: ground colour and the 3-4 dominant thread colours, then decide
+a background colour, floor/surface and light temperature.
+
+Background rules (strict):
+- solid or near-solid muted neutral only, never patterned
+- never a colour that appears in the embroidery
+- never pure white, never black
+- dark grounds -> light warm neutral; warm/rust grounds -> cool muted neutral
+- same background family across all colourways, only the tone shifts
+
+STEP 2 - CLASS RULES
+{CLASS_RULES}
+
+STEP 3 - WRITE THE PROMPTS
+One block per colourway, this exact format, nothing else:
+
+=== [COLOUR NAME] - attach: [front filename] (front), [back filename] (back) ===
+[prompt body]
+
+Decide which file is front and which is back by LOOKING at the images, not by
+the filename number.
+
+Prompt body, in this order:
+
+1) AUTHORITY LINE
+"The attached photographs are the only authority on the product. It is a
+[PRODUCT TYPE], [HOW IT IS WORN OR USED]. Reproduce it exactly as photographed -
+every embroidery motif, thread colour, placement, scale, density, shape,
+closures, straps or sleeves, edges and size. Keep it that product type, closed
+or open exactly as declared. Never open a closed piece and never add an
+opening, split, pocket, strap or hardware that is not in the photographs. Do
+not redesign, simplify, add, remove, mirror or recolour any part of it."
+The product type and how it is worn or used are the only words about the
+product itself. Never describe its colours, embroidery, motifs or details.
+
+2) MODEL CARD - only if the CLASS RULES put a person in any shot. Write it
+   once, then repeat it word-for-word, together with the styling base, inside
+   every shot where she appears. Default: a different model card per
+   colourway. If my message begins with "ONE-MODEL", use one model card for
+   every colourway.
+
+3) OUTFIT LOCK - only if a person appears:
+"In every image the model wears exactly the same styling base: [only the pieces
+the CLASS RULES allow, each with colour, fabric and cut]. It does not change
+between shots for any reason, including the cropped and macro shots."
+
+4) SET: background colour, surface, light.
+
+5) THE 5 SHOTS from the CLASS RULES, in that order.
+
+6) TECHNICAL SPEC (identical in every prompt):
+   - 4:5 portrait, 1600 x 2000 px
+   - compose inside a central 1600 x 1600 safe square: the whole product - and
+     the head, in shots with a full-length person - must sit inside that
+     square, so a 1:1 catalogue crop never cuts them
+   - in product-only shots the product fills about 60-70% of the safe square
+   - 8-10% margin all round, product never touching the frame edge
+   - soft daylight studio lighting, colour-accurate, embroidery thread texture
+     clearly visible, no blown highlights on light threads or metal
+   - ground colour and every thread colour must match the reference exactly
+   - photoreal, sharp, e-commerce standard
+
+7) HARD NEGATIVES (identical in every prompt), made of:
+   - always: no text, no logo, no watermark, no badge or price overlay, no
+     border or collage, no visible mannequin or dress form, no visible tags or
+     pins, no props, no patterned background, no mirrored or invented
+     embroidery, no colour shift, no change of product type, no opening,
+     split, pocket, strap or hardware that is not in the photographs
+   - the class negatives from the CLASS RULES
+   - only if a person appears: no plastic AI skin, no extra fingers, no
+     cropped head in full-length shots, model must not look older than 30,
+     no change to the styling base between shots
+
+8) Close every block with exactly this line:
+   "Generate all 5 images in one batch - same set, same lighting, same product
+   as the attached photographs, and the same person and styling base in every
+   shot where she appears."
+
+OUTPUT RULES
+One block per colourway. No commentary, no summary, no extra headings - the
+only exception is the one mismatch line from STEP 1, if needed.
+Each block self-contained and copy-paste ready on its own.
+At the very end, on its own line, output:
+HERO COLOUR: [the colourway whose set - and model card and styling base, if a
+person appears - should be reused for the shared per-product images] - and
+state its product declaration, model card, outfit lock and set in full.
+</script>
+
+<script type="text/plain" id="tpl-b">
+PRODUCT DECLARATION (mine - this overrides anything you read from the photos)
+PRODUCT TYPE: {TYPE}
+HOW IT IS WORN OR USED: {WORN}
+PRODUCT CLASS: {CLASS}
+If any line says [NOT GIVEN], ask me for it before writing anything else.
+
+ROLE
+Same art director role, ibBan.
+
+TASK
+Write ONE copy-paste-ready image-generation prompt that produces 3 shared
+images for this product. These are used across every colourway, so they are
+generated only once.
+DO NOT generate images. Prompt only.
+
+INPUT
+- attached: reference photographs of the product in the hero colourway
+- pasted below: the HERO COLOUR block from the per-SKU pass - reuse its set,
+  and its model card and outfit lock if a person appears, word-for-word, so the
+  shared images match the variant images. Name no styling piece that is not in
+  that outfit lock. Any model reads as 25-30 and must not look older than 30.
+
+MEASUREMENTS AND CARE TEXT
+Ask me for the measurements, the composition, the care instructions and the
+provenance line before writing, unless I have already given them. Do not
+invent any of them.
+
+THE 3 IMAGES:
+
+{SHARED_RULES}
+
+AUTHORITY LINE (include at the top of the prompt)
+"The attached photographs are the only authority on the product. It is a
+[PRODUCT TYPE], [HOW IT IS WORN OR USED]. Reproduce it exactly as photographed -
+every embroidery motif, thread colour, placement, scale, density, shape,
+closures, straps or sleeves, edges and size. Keep it that product type, closed
+or open exactly as declared. Never open a closed piece and never add an
+opening, split, pocket, strap or hardware that is not in the photographs. Do
+not redesign, simplify, add, remove, mirror or recolour any part of it."
+
+TECHNICAL SPEC (all 3):
+- 4:5 portrait, 1600 x 2000 px
+- compose inside a central 1600 x 1600 safe square
+- 8-10% margin all round
+- soft daylight studio lighting, colour-accurate, thread texture visible
+- photoreal, sharp, e-commerce standard
+
+HARD NEGATIVES (all 3):
+no logo, no watermark, no badge or price overlay, no border or collage, no
+visible mannequin or dress form, no visible tags or pins, no props, no
+patterned background, no mirrored or invented embroidery, no colour shift, no
+change of product type, no opening, split, pocket, strap or hardware that is
+not in the photographs. If a person appears: no plastic AI skin, no extra
+fingers, model must not look older than 30, no change to the styling base.
+No text at all except where explicitly allowed above.
+
+Close with:
+"Generate all 3 images in one batch."
+</script>
+
+<script type="text/plain" id="tpl-fix0">
+This image changed the product. It is {A_TYPE}, {WORN}.
+Regenerate this shot only. Reproduce the product exactly as in the attached
+product photograph - same shape, closures and size - with no opening, split,
+pocket, strap or hardware that is not in the photograph, and nothing added
+beyond what I declared. Keep the background and camera angle identical, and
+the model too if one appears.
+</script>
+
+<!-- ============================================================ class rules -->
+
+<script type="text/plain" id="rules-APPAREL">
+CLASS - APPAREL (worn by an adult model)
+
+Styling base, set by HOW IT IS WORN OR USED:
+- closed, on its own: shoes only. Nothing under it, nothing over it.
+- closed, over trousers: trousers and shoes. No top, no layer under or over it.
+- open, over a top and trousers: top, trousers and shoes.
+- with a plain top: a plain top and shoes - the product is the lower half.
+Pick colours for these pieces that do not fight the embroidery. Only ever name
+the pieces in this styling base. For a product worn on its own, never mention
+trousers, leggings, a top or any other layer anywhere in the prompt - not even
+in the negatives, because naming a piece makes the image model add it.
+
+Model card (one per colourway, then locked): adult woman, apparent age, hair
+colour/length/style, skin tone, height, build, makeup level, and the styling
+base. She reads as 25-30, never older than 30 - young, current, attractive.
+Natural EU 38-42 build. Face clearly visible and in focus in full-length shots.
+
+The 5 shots:
+1. Hero - full length, straight-on front, worn exactly as declared, closures
+   exactly as photographed, arms relaxed, face to camera
+2. Back - full length, same camera distance, head turned slightly
+3. Neckline and chest macro - embroidery, neckline and closures filling the
+   frame, on the body, no face (for a skirt: waistband and upper panel)
+4. Half-body - top of the head to mid-thigh, worn exactly as declared; shown
+   open only if declared open (for a skirt: waist to feet)
+5. Edge and hem macro - sleeve end and hem band; for a sleeveless piece, the
+   armhole edge and hem band; on the body
+
+Class negatives: no change of length, no front opening or split that is not in
+the photographs, no outfit colour shift in the cropped or macro shots
+</script>
+
+<script type="text/plain" id="rules-SWIMWEAR">
+CLASS - SWIMWEAR (worn by an adult model)
+
+Styling base, set by HOW IT IS WORN OR USED:
+- swimwear, on its own: barefoot or plain flat sandals. Nothing over it.
+- tied over a plain swimsuit: a plain solid swimsuit in a quiet colour that
+  does not fight the product, and plain flat sandals. The product is tied
+  exactly as photographed.
+Only ever name the pieces in this styling base.
+
+Model card (one per colourway, then locked): adult woman, apparent age, hair
+colour/length/style, skin tone, height, build, makeup level, and the styling
+base. She reads as 25-30, never older than 30. Natural EU 38-42 build.
+Standard e-commerce catalogue poses - relaxed, natural, never suggestive.
+Face clearly visible and in focus in full-length shots.
+
+The 5 shots:
+1. Hero - full length, straight-on front, face to camera
+2. Back - full length, same camera distance
+3. Detail macro - embroidery, trims, ties or hardware filling the frame, on
+   the body, no face
+4. Three-quarter - full length, body turned 45 degrees, showing the cut at
+   the side
+5. Half-body - top of the head to mid-thigh
+
+Class negatives: no change of cut, coverage or strap placement from the
+photographs
+</script>
+
+<script type="text/plain" id="rules-BAGS">
+CLASS - BAGS (product shots, plus one shot carried by an adult model)
+
+Shots 1-4 are product only: the bag alone on the set. It holds its natural
+shape as if lightly filled, with nothing visible inside it. Straps and handles
+arranged neatly, exactly as photographed.
+Shot 5 is on the model. Carry it the way this type of bag is carried, decided
+from PRODUCT TYPE and the photographs: a backpack on the back, a shoulder or
+tote bag on the shoulder, a hand bag in the hand or the crook of the arm.
+
+Styling base for the model: a plain top, trousers and shoes in quiet colours
+that do not fight the bag.
+Model card (one per colourway, then locked): adult woman, apparent age, hair
+colour/length/style, skin tone, build, makeup level, and the styling base. She
+reads as 25-30, never older than 30.
+
+The 5 shots:
+1. Hero - product only, straight-on front, standing upright, centred
+2. Back - product only, same camera distance
+3. Side profile - product only, showing depth, gusset and where the straps
+   attach
+4. Detail macro - embroidery and closure hardware filling the frame
+5. Carried - on the model, top of the head to mid-thigh, carried as described
+   above, bag in sharp focus
+
+Class negatives: no added or missing straps, handles, pockets or hardware, no
+change of strap length, no change of bag size relative to the body
+</script>
+
+<script type="text/plain" id="rules-ACCESSORY">
+CLASS - SMALL ACCESSORIES (product shots, plus one shot in the hand)
+
+Shots 1-4 are product only: the piece alone on the set, empty, nothing inside
+or on it that is not in the photographs.
+Shot 5 shows it held in one hand - hand and forearm only, no face. Hand card
+(locked): skin tone, natural short nails in a neutral shade, and a plain
+sleeve edge in a quiet colour if the wrist is visible. No model card and no
+outfit lock are needed; of the person negatives, only plastic AI skin and
+extra fingers apply.
+
+The 5 shots:
+1. Hero - product only, straight-on front, flat and centred
+2. Back - product only, same camera distance
+3. Open - product only, opened to show the interior exactly as photographed.
+   If the photographs do not show the interior, use a three-quarter angle
+   instead - never invent an interior.
+4. Detail macro - embroidery, zip or clasp filling the frame
+5. In hand - held naturally in one hand, showing its real size
+
+Class negatives: no invented interior, no added zips, clasps or compartments,
+no change of size relative to the hand
+</script>
+
+<script type="text/plain" id="rules-JEWELLERY">
+CLASS - JEWELLERY (product shots, plus two shots worn by an adult model)
+
+Shots 1-3 are product only: the piece alone on the set, laid the way it
+naturally sits. Metal, stones, beads and threadwork match the photographs
+exactly.
+Shots 4 and 5 are on the model, wearing a plain top with a simple neckline in
+a quiet colour that does not compete. Hair tied back if it would cover the
+piece.
+Model card (one per colourway, then locked): adult woman, apparent age, hair
+colour/length/style, skin tone, makeup level, and the styling base. She reads
+as 25-30, never older than 30.
+
+The 5 shots:
+1. Hero - product only, straight-on, centred
+2. Alternate angle - product only, side or three-quarter view
+3. Detail macro - clasp, setting or threadwork filling the frame
+4. Worn close-up - cropped close around where it is worn (ear, neck, wrist or
+   hand), piece in sharp focus
+5. Worn half-body - top of the head to chest, face visible, showing scale
+
+Class negatives: no added or missing stones, beads or links, no change of
+metal colour or finish, no change of size relative to the body
+</script>
+
+<script type="text/plain" id="rules-GIRLS">
+CLASS - GIRLS (product only, nobody in any image)
+
+Present the garment on an invisible (ghost) mannequin or laid flat, exactly as
+photographed - closed, sleeves and hem falling naturally. No model card and no
+outfit lock: nobody appears in these images.
+
+The 5 shots:
+1. Hero - invisible mannequin, straight-on front, whole garment
+2. Back - invisible mannequin, same camera distance
+3. Neckline and chest macro - embroidery and closures filling the frame
+4. Edge and hem macro - sleeve end and hem band
+5. Flat lay - laid flat, top-down, sleeves arranged symmetrically
+
+Class negatives: no person or body parts in any image, no change of length,
+no opening or split that is not in the photographs
+</script>
+
+<!-- ============================================================ shared rules (Prompt B) -->
+
+<script type="text/plain" id="shared-APPAREL">
+IMAGE 1 - FLAT LAY WITH MEASUREMENTS
+Product laid perfectly flat, straight-on top-down, closed exactly as
+photographed, sleeves laid symmetrically, on a matte neutral surface one shade
+off the variant background. Thin clean callout lines with a small sans-serif
+label for each measurement I supply. Labels in English, correctly spelled,
+evenly spaced, never overlapping the embroidery.
+Text IS allowed in this image - only the measurement labels, nothing else.
+
+IMAGE 2 - FABRIC AND CARE CARD
+Macro of the fabric weave and embroidery thread filling the upper two thirds;
+lower third a clean neutral band with a short text block: the composition,
+care instructions and provenance line I supply. Small sans-serif,
+left-aligned, generous spacing.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - MOVEMENT
+Full length, walking, slight turn, worn exactly as declared - shown open only
+if declared open. Same woman, same styling base, same set, same lighting as
+the HERO COLOUR block - repeat the model card and outfit lock in full. Face
+clearly visible and in focus. No text of any kind in this image.
+</script>
+
+<script type="text/plain" id="shared-SWIMWEAR">
+IMAGE 1 - FLAT LAY WITH MEASUREMENTS
+Product laid perfectly flat, straight-on top-down, pieces arranged neatly
+exactly as photographed, on a matte neutral surface one shade off the variant
+background. Thin clean callout lines with a small sans-serif label for each
+measurement I supply. Labels in English, correctly spelled, never overlapping
+the embroidery.
+Text IS allowed in this image - only the measurement labels, nothing else.
+
+IMAGE 2 - FABRIC AND CARE CARD
+Macro of the fabric and embroidery filling the upper two thirds; lower third a
+clean neutral band with a short text block: the composition, care
+instructions and provenance line I supply. Small sans-serif, left-aligned.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - MOVEMENT
+Full length, walking, relaxed natural catalogue pose, never suggestive. Same
+woman, same styling base, same set, same lighting as the HERO COLOUR block -
+repeat the model card and outfit lock in full. Face clearly visible. No text
+of any kind in this image.
+</script>
+
+<script type="text/plain" id="shared-BAGS">
+IMAGE 1 - DIMENSIONS
+Product only, straight-on front, standing upright, on a matte neutral surface
+one shade off the variant background. Thin clean callout lines with small
+sans-serif labels for width, height, depth and strap drop - the numbers I
+supply. Labels in English, correctly spelled, never overlapping the
+embroidery.
+Text IS allowed in this image - only the dimension labels, nothing else.
+
+IMAGE 2 - MATERIAL AND CARE CARD
+Macro of the material and embroidery filling the upper two thirds; lower third
+a clean neutral band with a short text block: the composition, care
+instructions and provenance line I supply. Small sans-serif, left-aligned.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - MOVEMENT
+Full length, walking, the bag carried exactly as in shot 5 of the variant set.
+Same woman, same styling base, same set, same lighting as the HERO COLOUR
+block - repeat the model card and outfit lock in full. Bag in sharp focus,
+face visible. No text of any kind in this image.
+</script>
+
+<script type="text/plain" id="shared-ACCESSORY">
+IMAGE 1 - DIMENSIONS
+Product only, flat, straight-on front, on a matte neutral surface one shade
+off the variant background. Thin clean callout lines with small sans-serif
+labels for width, height and depth - the numbers I supply. Labels in English,
+correctly spelled, never overlapping the embroidery.
+Text IS allowed in this image - only the dimension labels, nothing else.
+
+IMAGE 2 - MATERIAL AND CARE CARD
+Macro of the material and embroidery filling the upper two thirds; lower third
+a clean neutral band with a short text block: the composition, care
+instructions and provenance line I supply. Small sans-serif, left-aligned.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - IN USE
+Hand and forearm only, same hand card as the HERO COLOUR block, holding the
+piece in both hands at a slight three-quarter angle, soft natural shadow. No
+face. No text of any kind in this image.
+</script>
+
+<script type="text/plain" id="shared-JEWELLERY">
+IMAGE 1 - DIMENSIONS
+Product only, laid flat, straight-on, on a matte neutral surface one shade off
+the variant background. Thin clean callout lines with small sans-serif labels
+for length, drop, width or diameter - the numbers I supply. Labels in English,
+correctly spelled.
+Text IS allowed in this image - only the dimension labels, nothing else.
+
+IMAGE 2 - MATERIAL AND CARE CARD
+Macro of the metal, beads or threadwork filling the upper two thirds; lower
+third a clean neutral band with a short text block: the materials, care
+instructions and provenance line I supply. Small sans-serif, left-aligned.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - WORN LOOK
+Three-quarter length, relaxed pose, the piece worn with the same plain top.
+Same woman, same set, same lighting as the HERO COLOUR block - repeat the
+model card and outfit lock in full. Face visible, piece in sharp focus. No
+text of any kind in this image.
+</script>
+
+<script type="text/plain" id="shared-GIRLS">
+IMAGE 1 - FLAT LAY WITH MEASUREMENTS
+Garment laid perfectly flat, straight-on top-down, closed exactly as
+photographed, sleeves laid symmetrically, on a matte neutral surface one shade
+off the variant background. Thin clean callout lines with a small sans-serif
+label for each measurement I supply. If I give measurements for several age
+sizes, show them instead as a small clean table in the lower third.
+Text IS allowed in this image - only the measurement labels or table.
+
+IMAGE 2 - FABRIC AND CARE CARD
+Macro of the fabric weave and embroidery thread filling the upper two thirds;
+lower third a clean neutral band with a short text block: the composition,
+care instructions and provenance line I supply. Small sans-serif,
+left-aligned.
+Text IS allowed in this image - only that block, nothing else.
+
+IMAGE 3 - HANGER
+The garment on a plain wooden hanger against the set wall, straight-on,
+falling naturally, closed exactly as photographed. The hanger is the only
+object allowed in this image. Nobody in the image. No text of any kind.
+</script>
+
+<!-- ============================================================ logic -->
+
+<script>
+(function(){
+  "use strict";
+
+  var CATS = [
+    {g:"Dresses & kaftans", n:"Dresses",             h:"gn-dresses",           t:"dress",                w:"closed, on its own",            c:"APPAREL"},
+    {g:"Dresses & kaftans", n:"Long Dresses",        h:"gn-long-dresses",      t:"long dress",           w:"closed, on its own",            c:"APPAREL"},
+    {g:"Dresses & kaftans", n:"Short Dresses",       h:"gn-short-dresses",     t:"short dress",          w:"closed, on its own",            c:"APPAREL"},
+    {g:"Dresses & kaftans", n:"Winter Dresses",      h:"gn-winter-dresses",    t:"winter dress",         w:"closed, on its own",            c:"APPAREL"},
+    {g:"Dresses & kaftans", n:"Kaftans",             h:"gn-kaftans",           t:"kaftan",               w:"closed, on its own",            c:"APPAREL"},
+    {g:"Tunics & tops",     n:"Tunics",              h:"gn-tunics",            t:"tunic",                w:"closed, over trousers",         c:"APPAREL"},
+    {g:"Tunics & tops",     n:"Long Tunics",         h:"gn-long-tunics",       t:"long tunic",           w:"closed, on its own",            c:"APPAREL"},
+    {g:"Tunics & tops",     n:"Short Tunics",        h:"gn-short-tunics",      t:"short tunic",          w:"closed, over trousers",         c:"APPAREL"},
+    {g:"Tunics & tops",     n:"Shirts",              h:"gn-shirts",            t:"shirt",                w:"closed, over trousers",         c:"APPAREL"},
+    {g:"Tunics & tops",     n:"Knitwear",            h:"gn-knitwear",          t:"knitwear piece",       w:"closed, over trousers",         c:"APPAREL"},
+    {g:"Skirts & sets",     n:"Skirts",              h:"gn-skirts",            t:"skirt",                w:"with a plain top",              c:"APPAREL"},
+    {g:"Skirts & sets",     n:"Skirt & Blouse Sets", h:"gn-skirt-blouse-sets", t:"skirt and blouse set", w:"closed, on its own",            c:"APPAREL"},
+    {g:"Outerwear",         n:"Coats & Jackets",     h:"gn-outerwear",         t:"coat or jacket",       w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Coats",               h:"gn-coats",             t:"coat",                 w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Long Coats",          h:"gn-long-coats",        t:"long coat",            w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Short Coats",         h:"gn-short-coats",       t:"short coat",           w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Jackets",             h:"gn-jackets",           t:"jacket",               w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Gilets",              h:"gn-gilets",            t:"gilet",                w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Outerwear",         n:"Vest Coats",          h:"gn-vest-coats",        t:"vest coat",            w:"open, over a top and trousers", c:"APPAREL"},
+    {g:"Swimwear",          n:"Swimwear",            h:"gn-swimwear",          t:"swimwear piece",       w:"swimwear, on its own",          c:"SWIMWEAR"},
+    {g:"Swimwear",          n:"Bikinis",             h:"gn-bikinis",           t:"bikini",               w:"swimwear, on its own",          c:"SWIMWEAR"},
+    {g:"Swimwear",          n:"Swimsuits",           h:"gn-swimsuits",         t:"swimsuit",             w:"swimwear, on its own",          c:"SWIMWEAR"},
+    {g:"Swimwear",          n:"Pareos",              h:"gn-pareos",            t:"pareo",                w:"tied over a plain swimsuit",    c:"SWIMWEAR"},
+    {g:"Bags",              n:"Bags",                h:"gn-bags",              t:"bag",                  w:"carried",                       c:"BAGS"},
+    {g:"Bags",              n:"Hand Bags",           h:"gn-hand-bags",         t:"hand bag",             w:"carried",                       c:"BAGS"},
+    {g:"Bags",              n:"Tote & Shoulder Bags",h:"gn-tote-bags",         t:"tote or shoulder bag", w:"carried",                       c:"BAGS"},
+    {g:"Bags",              n:"Backpacks",           h:"gn-backpacks",         t:"backpack",             w:"carried",                       c:"BAGS"},
+    {g:"Accessories",       n:"Wallets",             h:"gn-wallets",           t:"wallet",               w:"held in the hand",              c:"ACCESSORY"},
+    {g:"Accessories",       n:"Jewellery",           h:"gn-jewellery",         t:"jewellery piece",      w:"worn",                          c:"JEWELLERY"},
+    {g:"Girls",             n:"Girls Dresses",       h:"gn-girls-dresses",     t:"girls' dress",         w:"product only, no model",        c:"GIRLS"},
+    {g:"Girls",             n:"Girls Tunics",        h:"gn-girls-tunics",      t:"girls' tunic",         w:"product only, no model",        c:"GIRLS"}
+  ];
+
+  var MODES = {
+    APPAREL:   ["closed, on its own","closed, over trousers","open, over a top and trousers","with a plain top"],
+    SWIMWEAR:  ["swimwear, on its own","tied over a plain swimsuit"],
+    BAGS:      ["carried"],
+    ACCESSORY: ["held in the hand"],
+    JEWELLERY: ["worn"],
+    GIRLS:     ["product only, no model"]
+  };
+
+  var CLASS_NAME = {
+    APPAREL:"apparel", SWIMWEAR:"swimwear", BAGS:"bags",
+    ACCESSORY:"small accessories", JEWELLERY:"jewellery", GIRLS:"girls, product only"
+  };
+
+  var SHOTS = {
+    APPAREL: {
+      sku:[["Hero, full length front","The variant image and the catalogue feed image_link"],
+           ["Back, full length","Embroidery often runs across the back; a major returns driver"],
+           ["Neckline and chest macro","Proof of hand embroidery, thread against ground colour"],
+           ["Half-body, as worn","Fit through the body; open only if worn open"],
+           ["Edge and hem macro","Construction and finishing quality"]],
+      shared:[["Movement","Drape and behaviour; the cut does not change by colour"],
+              ["Flat lay with measurements","One size chart, generated once so the numbers cannot drift"],
+              ["Fabric and care card","Composition, care and provenance"]],
+      strip:["Hero","Back","Neckline macro","Half-body","Edge & hem macro","Movement","Flat lay","Care card"]
+    },
+    SWIMWEAR: {
+      sku:[["Hero, full length front","The variant image and the catalogue feed image_link"],
+           ["Back, full length","Back cut and coverage"],
+           ["Detail macro","Embroidery, trims and ties up close"],
+           ["Three-quarter","The cut at the side"],
+           ["Half-body","Fit through the body"]],
+      shared:[["Movement","How it sits in motion"],
+              ["Flat lay with measurements","One size chart, generated once"],
+              ["Fabric and care card","Composition, care and provenance"]],
+      strip:["Hero","Back","Detail macro","Three-quarter","Half-body","Movement","Flat lay","Care card"]
+    },
+    BAGS: {
+      sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
+           ["Back, product only","The back panel and anything on it"],
+           ["Side profile","Depth and where the straps attach"],
+           ["Detail macro","Embroidery and closure hardware"],
+           ["Carried on the model","Scale against the body"]],
+      shared:[["Movement","Carried while walking"],
+              ["Dimensions","Width, height, depth and strap drop, generated once"],
+              ["Material and care card","Composition, care and provenance"]],
+      strip:["Hero","Back","Side profile","Detail macro","Carried","Movement","Dimensions","Care card"]
+    },
+    ACCESSORY: {
+      sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
+           ["Back, product only","The back and any detail on it"],
+           ["Open, interior","Compartments as they really are; three-quarter angle if not photographed"],
+           ["Detail macro","Embroidery, zip or clasp"],
+           ["In hand","Real size"]],
+      shared:[["In use","Hands only, the piece in context"],
+              ["Dimensions","Width, height and depth, generated once"],
+              ["Material and care card","Composition, care and provenance"]],
+      strip:["Hero","Back","Open","Detail macro","In hand","In use","Dimensions","Care card"]
+    },
+    JEWELLERY: {
+      sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
+           ["Alternate angle","Side or three-quarter shape"],
+           ["Detail macro","Clasp, setting or threadwork"],
+           ["Worn close-up","How it sits where it is worn"],
+           ["Worn half-body","Scale on the body"]],
+      shared:[["Worn look","The piece in an outfit"],
+              ["Dimensions","Length, drop, width or diameter, generated once"],
+              ["Material and care card","Materials, care and provenance"]],
+      strip:["Hero","Alternate angle","Detail macro","Worn close-up","Worn half-body","Worn look","Dimensions","Care card"]
+    },
+    GIRLS: {
+      sku:[["Hero, invisible mannequin","The variant image and the catalogue feed image_link"],
+           ["Back, invisible mannequin","The back of the garment"],
+           ["Neckline and chest macro","Proof of hand embroidery"],
+           ["Edge and hem macro","Construction and finishing quality"],
+           ["Flat lay","Whole shape at a glance"]],
+      shared:[["Hanger","The garment hanging naturally"],
+              ["Flat lay with measurements","Sizes by age, generated once"],
+              ["Fabric and care card","Composition, care and provenance"]],
+      strip:["Hero","Back","Neckline macro","Edge & hem macro","Flat lay","Hanger","Measurements","Care card"]
+    }
+  };
+
+  var NG = "[NOT GIVEN]";
+  var state = { idx:-1, cls:"", type:"", worn:"" };
+
+  function tpl(id){ var el = document.getElementById(id); return el ? el.textContent.replace(/^\n+|\n+$/g, "") : ""; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]; }); }
+  function article(word){ return /^[aeiou]/i.test(word) ? "an " + word : "a " + word; }
+
+  var TPL_A = tpl("tpl-a"), TPL_B = tpl("tpl-b"), TPL_FIX0 = tpl("tpl-fix0");
+
+  function build(t){
+    var cls = state.cls;
+    var type = state.type.trim() || NG;
+    var worn = state.worn || NG;
+    var rules = cls ? tpl("rules-" + cls) : NG + " - no category chosen on the page";
+    var shared = cls ? tpl("shared-" + cls) : NG + " - no category chosen on the page";
+    return t.split("{TYPE}").join(type)
+            .split("{A_TYPE}").join(state.type.trim() ? article(state.type.trim()) : NG)
+            .split("{WORN}").join(worn)
+            .split("{CLASS}").join(cls ? CLASS_NAME[cls] : NG)
+            .split("{CLASS_RULES}").join(rules)
+            .split("{SHARED_RULES}").join(shared);
+  }
+
+  var elA = document.getElementById("src-a");
+  var elB = document.getElementById("src-b");
+  var elF = document.getElementById("src-fix0");
+  var typeEl = document.getElementById("g-type");
+  var wornEl = document.getElementById("g-worn");
+  var status = document.getElementById("decl-status");
+  var topSel = document.getElementById("top-sel");
+
+  function renderPrompts(){
+    elA.textContent = build(TPL_A);
+    elB.textContent = build(TPL_B);
+    elF.textContent = build(TPL_FIX0);
+    var cat = state.idx >= 0 ? CATS[state.idx] : null;
+    if (state.cls && state.type.trim() && state.worn){
+      status.className = "decl-status ok";
+      status.textContent = (cat ? cat.n + " (" + cat.h + ")" : "Custom") +
+        " goes into the prompts as: " + state.type.trim() + ", " + state.worn + ".";
+      topSel.textContent = cat ? cat.n : "";
+    } else {
+      status.className = "decl-status missing";
+      status.textContent = "No category yet. If you copy now, ChatGPT will ask you before writing anything.";
+      topSel.textContent = "";
+    }
+  }
+
+  function renderShots(){
+    var s = SHOTS[state.cls || "APPAREL"];
+    var rows = "";
+    s.sku.forEach(function(r, i){
+      rows += '<tr><td class="n">' + (i + 1) + '</td><td>' + esc(r[0]) + '</td><td class="scope scope-sku">Per SKU</td><td>' + esc(r[1]) + '</td></tr>';
+    });
+    s.shared.forEach(function(r, i){
+      rows += '<tr><td class="n">' + (i + 6) + '</td><td>' + esc(r[0]) + '</td><td class="scope scope-prod">Per product</td><td>' + esc(r[1]) + '</td></tr>';
+    });
+    document.getElementById("shots-body").innerHTML = rows;
+    document.getElementById("shots-sub").textContent = state.cls
+      ? "Showing the " + CLASS_NAME[state.cls] + " set. Five shots follow the colour; three are made once and shared."
+      : "Showing the apparel set until a category is pressed. Five shots follow the colour; three are made once and shared.";
+    document.getElementById("strip").innerHTML = s.strip.map(function(label, i){
+      return '<li class="' + (i < 5 ? "sku" : "prod") + '">' + esc(label) + '</li>';
+    }).join("");
+  }
+
+  function fillModes(){
+    var modes = state.cls ? MODES[state.cls] : [];
+    if (!modes.length){
+      wornEl.innerHTML = '<option value="">Press a category first</option>';
+      wornEl.disabled = true;
+      return;
+    }
+    wornEl.innerHTML = modes.map(function(m){
+      return '<option value="' + esc(m) + '"' + (m === state.worn ? " selected" : "") + '>' +
+             esc(m.charAt(0).toUpperCase() + m.slice(1)) + '</option>';
+    }).join("");
+    wornEl.disabled = modes.length < 2;
+  }
+
+  /* category buttons, grouped */
+  var catsEl = document.getElementById("cats");
+  var groups = [];
+  CATS.forEach(function(c){ if (groups.indexOf(c.g) < 0) groups.push(c.g); });
+  catsEl.innerHTML = groups.map(function(g){
+    var chips = CATS.map(function(c, i){
+      if (c.g !== g) return "";
+      return '<button type="button" class="chip" aria-pressed="false" data-i="' + i + '" title="' + esc(c.h) + '">' + esc(c.n) + '</button>';
+    }).join("");
+    return '<div class="cat-group"><h4>' + esc(g) + '</h4><div class="chips">' + chips + '</div></div>';
+  }).join("");
+
+  catsEl.addEventListener("click", function(e){
+    var btn = e.target.closest(".chip");
+    if (!btn) return;
+    var i = +btn.getAttribute("data-i");
+    var c = CATS[i];
+    state.idx = i; state.cls = c.c; state.type = c.t; state.worn = c.w;
+    Array.prototype.forEach.call(catsEl.querySelectorAll(".chip"), function(b){
+      b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+    });
+    typeEl.value = c.t;
+    fillModes();
+    renderPrompts();
+    renderShots();
+  });
+
+  typeEl.addEventListener("input", function(){ state.type = typeEl.value; renderPrompts(); });
+  wornEl.addEventListener("change", function(){ state.worn = wornEl.value; renderPrompts(); });
+
+  /* copy */
+  var live = document.getElementById("live");
+  function writeText(text){
+    if (navigator.clipboard && window.isSecureContext){ return navigator.clipboard.writeText(text); }
+    return new Promise(function(resolve, reject){
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly","");
+      ta.style.position = "fixed"; ta.style.top = "-1000px";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch(e){ ok = false; }
+      document.body.removeChild(ta);
+      ok ? resolve() : reject();
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".copy[data-copy]"), function(btn){
+    var original = btn.textContent;
+    btn.addEventListener("click", function(){
+      var src = document.querySelector(btn.getAttribute("data-copy"));
+      if (!src) return;
+      var text = src.textContent;
+      var pre = btn.getAttribute("data-prefix");
+      if (pre){ var box = document.querySelector(pre); if (box && box.checked) text = "ONE-MODEL\n\n" + text; }
+      writeText(text).then(function(){
+        btn.textContent = "Copied"; btn.classList.add("done");
+        live.textContent = "Prompt copied to clipboard";
+        setTimeout(function(){ btn.textContent = original; btn.classList.remove("done"); }, 1600);
+      }).catch(function(){
+        btn.textContent = "Select and copy";
+        live.textContent = "Copy blocked. Select the text and copy it manually.";
+        var range = document.createRange(); range.selectNodeContents(src);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        setTimeout(function(){ btn.textContent = original; }, 2600);
+      });
+    });
+  });
+
+  fillModes();
+  renderPrompts();
+  renderShots();
+})();
+</script>
+</body>
+</html>
