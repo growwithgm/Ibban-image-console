@@ -273,7 +273,7 @@ footer{margin-top:58px;padding-top:18px;border-top:1px solid var(--line);color:v
       <ol class="plain">
         <li><b>New chat per colour.</b> Leftover images from another colour in the context make the model blend palettes.</li>
         <li><b>Attach first, paste second.</b> The block header names exactly which two files to attach for that colour.</li>
-        <li><b>Ask for all five in one batch.</b> If the tool returns fewer, ask for 1&ndash;3 then 4&ndash;5, pasting the model card and outfit lock again in the second request.</li>
+        <li><b>Ask for the shots one at a time.</b> One image-generation call per shot, so nothing comes back as a grid or collage. If a reply puts two shots into a single image, discard it and ask for that shot again on its own.</li>
         <li><b>Keep shot 1 as the hero.</b> It becomes the Shopify variant image and the feed image; if it comes back weak, regenerate it rather than promoting another shot.</li>
         <li><b>Run Prompt B last</b>, after the hero colour's batch, so the shared images match a set you have already approved.</li>
       </ol>
@@ -341,6 +341,21 @@ this shot only, copying every motif, thread colour, placement, scale and
 density exactly from the attached photograph. Keep the model, styling base,
 background and camera angle identical to the image you just produced.</pre>
       </div>
+
+      <h3>It returned a collage instead of separate images</h3>
+      <p>Send this in the same chat, right after the bad reply.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="meta">collage instead of separate images</span>
+          <span class="spacer"></span>
+          <button class="copy small" type="button" data-copy="#src-fix3">Copy</button>
+        </div>
+<pre class="prompt short" id="src-fix3">That reply put more than one shot inside a single image. Generate the shots
+again as separate images - one image-generation call per shot, one single
+photograph per image, nothing else in the frame. No grid, collage, sheet,
+split screen, panels or dividing lines. Keep the model, styling base, product,
+set and lighting exactly as specified for each shot.</pre>
+      </div>
     </section>
 
     <section id="upload">
@@ -356,7 +371,7 @@ background and camera angle identical to the image you just produced.</pre>
       </ul>
     </section>
 
-    <footer>GROW NEST &nbsp; ibban.com &nbsp; v1.4</footer>
+    <footer>GROW NEST &nbsp; ibban.com &nbsp; v1.5</footer>
   </main>
 </div>
 
@@ -443,6 +458,10 @@ between shots for any reason, including the cropped and macro shots."
    include a HERO POSE section, choose every colourway's hero pose before
    writing any block, so no two colourways share one, and write each pose
    out in full inside that colourway's shot 1.
+   Head each one "SHOT 1 OF 5", "SHOT 2 OF 5" and so on, and write it as a
+   standalone prompt for ONE single photograph: its framing and pose, the
+   model card and styling base in full wherever a person appears, and the
+   SET. Each shot must be runnable on its own, without the other four.
 
 6) TECHNICAL SPEC (identical in every prompt):
    - 4:5 portrait, 1600 x 2000 px
@@ -457,20 +476,30 @@ between shots for any reason, including the cropped and macro shots."
    - photoreal, sharp, e-commerce standard
 
 7) HARD NEGATIVES (identical in every prompt), made of:
-   - always: no text, no logo, no watermark, no badge or price overlay, no
-     border or collage, no visible mannequin or dress form, no visible tags or
-     pins, no props, no patterned background, no mirrored or invented
-     embroidery, no colour shift, no change of product type, no opening,
-     split, pocket, strap or hardware that is not in the photographs
+   - always: ONE single photograph per image - no collage, no grid, no
+     contact sheet, no split screen, no diptych or triptych, no multi-panel
+     or side-by-side layout, no film strip, no picture-in-picture, no inset
+     or thumbnail, no dividing lines or borders inside the frame, and never
+     more than one view of the product in the same image; and no text, no
+     logo, no watermark, no badge or price overlay, no visible mannequin or
+     dress form, no visible tags or pins, no props, no patterned background,
+     no mirrored or invented embroidery, no colour shift, no change of
+     product type, no opening, split, pocket, strap or hardware that is not
+     in the photographs
    - the class negatives from the CLASS RULES
    - only if a person appears: no plastic AI skin, no extra fingers, no
      cropped head in full-length shots, model must not look older than 30,
      no change to the styling base between shots
 
-8) Close every block with exactly this line:
-   "Generate all 5 images in one batch - same set, same lighting, same product
-   as the attached photographs, and the same person and styling base in every
-   shot where she appears."
+8) Close every block with exactly these two lines:
+   "HOW TO RUN: generate these as 5 SEPARATE images - one image-generation
+   call per shot, one single photograph per image. Never put two shots into
+   the same call, and never answer with a grid, collage, sheet or multi-panel
+   image. If a reply comes back with more than one shot inside a single
+   image, discard it and generate that shot again on its own."
+   "Across all five: same set, same lighting, same product as the attached
+   photographs, and the same person and styling base in every shot where she
+   appears."
 
 OUTPUT RULES
 One block per colourway. No commentary, no summary, no extra headings - the
@@ -531,7 +560,10 @@ TECHNICAL SPEC (all 3):
 - photoreal, sharp, e-commerce standard
 
 HARD NEGATIVES (all 3):
-no logo, no watermark, no badge or price overlay, no border or collage, no
+ONE single photograph per image - no collage, no grid, no contact sheet, no
+split screen, no multi-panel or side-by-side layout, no picture-in-picture,
+no dividing lines or borders inside the frame, never more than one view in
+the same image; no logo, no watermark, no badge or price overlay, no
 visible mannequin or dress form, no visible tags or pins, no props, no
 patterned background, no mirrored or invented embroidery, no colour shift, no
 change of product type, no opening, split, pocket, strap or hardware that is
@@ -540,7 +572,11 @@ fingers, model must not look older than 30, no change to the styling base.
 No text at all except where explicitly allowed above.
 
 Close with:
-"Generate all 3 images in one batch."
+"HOW TO RUN: generate these as 3 SEPARATE images - one image-generation call
+per image, one single photograph each. Never put two of them into the same
+call, and never answer with a grid, collage, sheet or multi-panel image. If a
+reply comes back with more than one inside a single image, discard it and
+generate that one again on its own."
 </script>
 
 <script type="text/plain" id="tpl-fix0">
