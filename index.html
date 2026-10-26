@@ -198,10 +198,10 @@ footer{margin-top:58px;padding-top:18px;border-top:1px solid var(--line);color:v
         <li class="pass">
           <span class="tag">pass 3 — per product</span>
           <b>Run Prompt B once</b>
-          <p>Hero colour's photographs plus its HERO COLOUR block. Three shared images used across every variant.</p>
+          <p>Hero colour's photographs plus its HERO COLOUR block. Four shared images used across every variant.</p>
         </li>
       </ol>
-      <p class="formula">Image count: (5 &#215; colourways) + 3. <b>A product in 5 colours = 28 images.</b></p>
+      <p class="formula">Image count: (5 &#215; colourways) + 4. <b>A product in 5 colours = 29 images.</b></p>
     </section>
 
     <section id="product">
@@ -248,17 +248,29 @@ footer{margin-top:58px;padding-top:18px;border-top:1px solid var(--line);color:v
       <div class="prompt-wrap">
         <div class="prompt-head">
           <span class="who">Prompt B</span>
-          <span class="meta">writes the 3 shared images</span>
+          <span class="meta">writes the 4 shared images</span>
           <span class="spacer"></span>
           <button class="copy" type="button" data-copy="#src-b">Copy prompt</button>
         </div>
         <pre class="prompt" id="src-b"></pre>
       </div>
+
+      <h3>The macro on its own</h3>
+      <p>Run this when the macro is all you need - a product whose other shared images are already done, or a replacement for a macro that came back wrong. Uses the same category you pressed in section 2.</p>
+      <div class="prompt-wrap">
+        <div class="prompt-head">
+          <span class="who">Macro prompt</span>
+          <span class="meta">writes the macro image only</span>
+          <span class="spacer"></span>
+          <button class="copy" type="button" data-copy="#src-macro">Copy prompt</button>
+        </div>
+        <pre class="prompt" id="src-macro"></pre>
+      </div>
     </section>
 
     <section id="shots">
       <h2><span class="num">5</span>Shot map</h2>
-      <p class="sub" id="shots-sub">Five shots follow the colour. Three are made once and shared.</p>
+      <p class="sub" id="shots-sub">Five shots follow the colour. Four are made once and shared.</p>
       <div class="scroll">
         <table>
           <thead><tr><th>#</th><th>Shot</th><th>Scope</th><th>Why it exists</th></tr></thead>
@@ -360,18 +372,18 @@ set and lighting exactly as specified for each shot.</pre>
 
     <section id="upload">
       <h2><span class="num">9</span>Uploading to Shopify</h2>
-      <p class="sub">Gallery order: the selected colour's five first, the shared three after.</p>
+      <p class="sub">Gallery order: the selected colour's five first, the shared four after.</p>
       <ul class="strip" id="strip"></ul>
       <ul class="plain">
         <li><b>Assign shot 1 to its variant</b> in Media, not just upload it to the gallery. Without the assignment the swatch does not change the image, and the feed falls back to the product's first image, so a Cream shopper sees a Black ad.</li>
-        <li>The three shared images are assigned to no variant and stay at the end of the gallery.</li>
+        <li>The four shared images are assigned to no variant and stay at the end of the gallery.</li>
         <li>Alt text: product name plus colour. File name readable, for example <code>nuria-dress-black-front.webp</code>.</li>
         <li>Export as WebP or JPEG, roughly 200&ndash;300&nbsp;KB each.</li>
         <li>After changing a main image, the Meta catalogue keeps serving the old <code>image_link</code> until the next feed sync.</li>
       </ul>
     </section>
 
-    <footer>GROW NEST &nbsp; ibban.com &nbsp; v1.5</footer>
+    <footer>GROW NEST &nbsp; ibban.com &nbsp; v1.6</footer>
   </main>
 </div>
 
@@ -522,7 +534,7 @@ ROLE
 Same art director role, ibBan.
 
 TASK
-Write ONE copy-paste-ready image-generation prompt that produces 3 shared
+Write ONE copy-paste-ready image-generation prompt that produces 4 shared
 images for this product. These are used across every colourway, so they are
 generated only once.
 DO NOT generate images. Prompt only.
@@ -539,7 +551,7 @@ Ask me for the measurements, the composition, the care instructions and the
 provenance line before writing, unless I have already given them. Do not
 invent any of them.
 
-THE 3 IMAGES:
+THE 4 IMAGES:
 
 {SHARED_RULES}
 
@@ -552,14 +564,14 @@ or open exactly as declared. Never open a closed piece and never add an
 opening, split, pocket, strap or hardware that is not in the photographs. Do
 not redesign, simplify, add, remove, mirror or recolour any part of it."
 
-TECHNICAL SPEC (all 3):
+TECHNICAL SPEC (all 4):
 - 4:5 portrait, 1600 x 2000 px
 - compose inside a central 1600 x 1600 safe square
 - 8-10% margin all round
 - soft daylight studio lighting, colour-accurate, thread texture visible
 - photoreal, sharp, e-commerce standard
 
-HARD NEGATIVES (all 3):
+HARD NEGATIVES (all 4):
 ONE single photograph per image - no collage, no grid, no contact sheet, no
 split screen, no multi-panel or side-by-side layout, no picture-in-picture,
 no dividing lines or borders inside the frame, never more than one view in
@@ -572,11 +584,79 @@ fingers, model must not look older than 30, no change to the styling base.
 No text at all except where explicitly allowed above.
 
 Close with:
-"HOW TO RUN: generate these as 3 SEPARATE images - one image-generation call
+"HOW TO RUN: generate these as 4 SEPARATE images - one image-generation call
 per image, one single photograph each. Never put two of them into the same
 call, and never answer with a grid, collage, sheet or multi-panel image. If a
 reply comes back with more than one inside a single image, discard it and
 generate that one again on its own."
+</script>
+
+<script type="text/plain" id="tpl-macro">
+PRODUCT DECLARATION (mine - this overrides anything you read from the photos)
+PRODUCT TYPE: {TYPE}
+HOW IT IS WORN OR USED: {WORN}
+PRODUCT CLASS: {CLASS}
+If any line says [NOT GIVEN], ask me for it before writing anything else.
+
+ROLE
+Same art director role, ibBan.
+
+TASK
+Write ONE copy-paste-ready image-generation prompt that produces the single
+per-product MACRO image on its own. It is generated once per product and used
+across every colourway, so run it for the hero colourway only.
+DO NOT generate the image. Prompt only.
+
+INPUT
+- attached: reference photographs of the product in the hero colourway
+- pasted below, if you have it: the HERO COLOUR block from the per-SKU pass.
+  Reuse its set surface and light temperature word-for-word so this image
+  matches the rest of the set. No model card and no outfit lock are needed -
+  nobody appears in this image.
+
+WHAT THE IMAGE IS
+Extreme close-up of the product's own surface, filling the whole frame.
+- apparel, swimwear, girls, bags and small accessories: the embroidery -
+  individual stitches, thread twist, the weave or grain underneath, and the
+  slight relief where the thread sits on it
+- jewellery: the metal and its finish, the stones or beads in their setting,
+  the threadwork, and the way the parts meet
+Shoot the densest, most characteristic area in the attached photographs, flat
+or very slightly angled. Product only - no person or body parts in frame.
+This is tighter than the care card macro and carries no text band.
+Copy every motif, thread colour, placement, scale and density exactly - for
+jewellery every stone, bead, link, metal colour and finish. Never enlarge a
+detail to fill the frame, never mirror one and never invent one.
+
+SET
+The same surface and the same light temperature as the other per-product
+images, one shade off the variant background. Soft raking daylight that shows
+thread texture and relief without blowing out light threads or metal.
+
+TECHNICAL SPEC
+- 4:5 portrait, 1600 x 2000 px
+- compose inside a central 1600 x 1600 safe square
+- the surface detail fills the safe square edge to edge
+- 8-10% margin all round
+- colour-accurate: ground colour and every thread, metal or stone colour
+  must match the reference exactly
+- photoreal, sharp, e-commerce standard
+
+HARD NEGATIVES
+ONE single photograph - no collage, no grid, no contact sheet, no split
+screen, no multi-panel or side-by-side layout, no picture-in-picture, no
+inset or thumbnail, no dividing lines or borders inside the frame, never more
+than one view in the same image; no text, no logo, no watermark, no badge or
+price overlay, no visible mannequin or dress form, no visible tags or pins,
+no props, no patterned background, no person or body parts, no mirrored or
+invented embroidery, no colour shift, no change of thread, metal or stone
+colour.
+
+Close with:
+"HOW TO RUN: generate this as ONE single photograph in one image-generation
+call. Never answer with a grid, collage, sheet or multi-panel image. If the
+reply comes back with more than one view inside a single image, discard it
+and generate it again on its own."
 </script>
 
 <script type="text/plain" id="tpl-fix0">
@@ -842,6 +922,17 @@ Full length, walking, slight turn, worn exactly as declared - shown open only
 if declared open. Same woman, same styling base, same set, same lighting as
 the HERO COLOUR block - repeat the model card and outfit lock in full. Face
 clearly visible and in focus. No text of any kind in this image.
+IMAGE 4 - EMBROIDERY MACRO
+Extreme close-up of the embroidery on the garment itself, filling the whole
+frame: individual stitches, thread twist, the weave of the ground fabric and
+the slight relief where the thread sits on it. Shoot the densest, most
+characteristic embroidered area in the attached photographs, flat or very
+slightly angled. Product only - nobody in this image. Tighter than the care
+card macro and with no text band. Copy every motif, thread colour, placement,
+scale and density exactly; never enlarge a motif to fill the frame and never
+invent one. Same set surface and light temperature as the other images, soft
+raking daylight that shows thread relief without blowing out light threads or
+metal. No text of any kind in this image.
 </script>
 
 <script type="text/plain" id="shared-SWIMWEAR">
@@ -864,6 +955,17 @@ Full length, walking, relaxed natural catalogue pose, never suggestive. Same
 woman, same styling base, same set, same lighting as the HERO COLOUR block -
 repeat the model card and outfit lock in full. Face clearly visible. No text
 of any kind in this image.
+IMAGE 4 - EMBROIDERY MACRO
+Extreme close-up of the embroidery on the fabric itself, filling the whole
+frame: individual stitches, thread twist, the weave of the ground fabric and
+the slight relief where the thread sits on it. Shoot the densest, most
+characteristic embroidered area in the attached photographs, flat or very
+slightly angled. Product only - nobody in this image. Tighter than the care
+card macro and with no text band. Copy every motif, thread colour, placement,
+scale and density exactly; never enlarge a motif to fill the frame and never
+invent one. Same set surface and light temperature as the other images, soft
+raking daylight that shows thread relief without blowing out light threads or
+metal. No text of any kind in this image.
 </script>
 
 <script type="text/plain" id="shared-BAGS">
@@ -886,6 +988,17 @@ Full length, walking, the bag carried exactly as in shot 5 of the variant set.
 Same woman, same styling base, same set, same lighting as the HERO COLOUR
 block - repeat the model card and outfit lock in full. Bag in sharp focus,
 face visible. No text of any kind in this image.
+IMAGE 4 - EMBROIDERY MACRO
+Extreme close-up of the embroidery on the bag's own material, filling the
+whole frame: individual stitches, thread twist, the weave or grain underneath
+and the slight relief where the thread sits on it. Shoot the densest, most
+characteristic embroidered area in the attached photographs. Product only -
+nobody in this image. Tighter than the material and care card macro and with
+no text band. Copy every motif, thread colour, placement, scale and density
+exactly; never enlarge a motif to fill the frame and never invent one. Same
+set surface and light temperature as the other images, soft raking daylight
+that shows thread relief without blowing out light threads or hardware. No
+text of any kind in this image.
 </script>
 
 <script type="text/plain" id="shared-ACCESSORY">
@@ -906,6 +1019,17 @@ IMAGE 3 - IN USE
 Hand and forearm only, same hand card as the HERO COLOUR block, holding the
 piece in both hands at a slight three-quarter angle, soft natural shadow. No
 face. No text of any kind in this image.
+IMAGE 4 - EMBROIDERY MACRO
+Extreme close-up of the embroidery on the piece's own material, filling the
+whole frame: individual stitches, thread twist, the weave or grain underneath
+and the slight relief where the thread sits on it. Shoot the densest, most
+characteristic embroidered area in the attached photographs. Product only -
+no hand and nobody in this image. Tighter than the material and care card
+macro and with no text band. Copy every motif, thread colour, placement,
+scale and density exactly; never enlarge a motif to fill the frame and never
+invent one. Same set surface and light temperature as the other images, soft
+raking daylight that shows thread relief without blowing out light threads or
+hardware. No text of any kind in this image.
 </script>
 
 <script type="text/plain" id="shared-JEWELLERY">
@@ -927,6 +1051,17 @@ Three-quarter length, relaxed pose, the piece worn with the same plain top.
 Same woman, same set, same lighting as the HERO COLOUR block - repeat the
 model card and outfit lock in full. Face visible, piece in sharp focus. No
 text of any kind in this image.
+IMAGE 4 - MATERIAL MACRO
+Extreme close-up of the piece's own surface, filling the whole frame: the
+metal and its finish, the stones or beads in their setting, the threadwork,
+and the way the parts meet. Shoot the most characteristic area in the
+attached photographs, laid the way it naturally sits. Product only - nobody
+in this image. Tighter than the material and care card macro and with no text
+band. Copy every stone, bead, link, metal colour and finish exactly; never
+enlarge a detail to fill the frame and never invent one. Same set surface and
+light temperature as the other images, soft raking daylight that shows the
+finish without blowing out metal or stones. No text of any kind in this
+image.
 </script>
 
 <script type="text/plain" id="shared-GIRLS">
@@ -949,6 +1084,18 @@ IMAGE 3 - HANGER
 The garment on a plain wooden hanger against the set wall, straight-on,
 falling naturally, closed exactly as photographed. The hanger is the only
 object allowed in this image. Nobody in the image. No text of any kind.
+IMAGE 4 - EMBROIDERY MACRO
+Extreme close-up of the embroidery on the garment itself, filling the whole
+frame: individual stitches, thread twist, the weave of the ground fabric and
+the slight relief where the thread sits on it. Shoot the densest, most
+characteristic embroidered area in the attached photographs, laid flat or very
+slightly angled. Product only - no person or body parts in this image, as in
+every image for this class. Tighter than the care card macro and with no text
+band. Copy every motif, thread colour, placement, scale and density exactly;
+never enlarge a motif to fill the frame and never invent one. Same set surface
+and light temperature as the other images, soft raking daylight that shows
+thread relief without blowing out light threads. No text of any kind in this
+image.
 </script>
 
 <!-- ============================================================ logic -->
@@ -1014,8 +1161,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["Edge and hem macro","Construction and finishing quality"]],
       shared:[["Movement","Drape and behaviour; the cut does not change by colour"],
               ["Flat lay with measurements","One size chart, generated once so the numbers cannot drift"],
-              ["Fabric and care card","Composition, care and provenance"]],
-      strip:["Hero","Back","Neckline macro","Half-body","Edge & hem macro","Movement","Flat lay","Care card"]
+              ["Fabric and care card","Composition, care and provenance"],
+              ["Embroidery macro","Stitch and thread texture, generated once"]],
+      strip:["Hero","Back","Neckline macro","Half-body","Edge & hem macro","Movement","Flat lay","Care card","Embroidery macro"]
     },
     SWIMWEAR: {
       sku:[["Hero, full length front","The variant image and the catalogue feed image_link"],
@@ -1025,8 +1173,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["Half-body","Fit through the body"]],
       shared:[["Movement","How it sits in motion"],
               ["Flat lay with measurements","One size chart, generated once"],
-              ["Fabric and care card","Composition, care and provenance"]],
-      strip:["Hero","Back","Detail macro","Three-quarter","Half-body","Movement","Flat lay","Care card"]
+              ["Fabric and care card","Composition, care and provenance"],
+              ["Embroidery macro","Stitch and thread texture, generated once"]],
+      strip:["Hero","Back","Detail macro","Three-quarter","Half-body","Movement","Flat lay","Care card","Embroidery macro"]
     },
     BAGS: {
       sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
@@ -1036,8 +1185,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["Carried on the model","Scale against the body"]],
       shared:[["Movement","Carried while walking"],
               ["Dimensions","Width, height, depth and strap drop, generated once"],
-              ["Material and care card","Composition, care and provenance"]],
-      strip:["Hero","Back","Side profile","Detail macro","Carried","Movement","Dimensions","Care card"]
+              ["Material and care card","Composition, care and provenance"],
+              ["Embroidery macro","Stitch and thread texture, generated once"]],
+      strip:["Hero","Back","Side profile","Detail macro","Carried","Movement","Dimensions","Care card","Embroidery macro"]
     },
     ACCESSORY: {
       sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
@@ -1047,8 +1197,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["In hand","Real size"]],
       shared:[["In use","Hands only, the piece in context"],
               ["Dimensions","Width, height and depth, generated once"],
-              ["Material and care card","Composition, care and provenance"]],
-      strip:["Hero","Back","Open","Detail macro","In hand","In use","Dimensions","Care card"]
+              ["Material and care card","Composition, care and provenance"],
+              ["Embroidery macro","Stitch and thread texture, generated once"]],
+      strip:["Hero","Back","Open","Detail macro","In hand","In use","Dimensions","Care card","Embroidery macro"]
     },
     JEWELLERY: {
       sku:[["Hero, product only","The variant image and the catalogue feed image_link"],
@@ -1058,8 +1209,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["Worn half-body","Scale on the body"]],
       shared:[["Worn look","The piece in an outfit"],
               ["Dimensions","Length, drop, width or diameter, generated once"],
-              ["Material and care card","Materials, care and provenance"]],
-      strip:["Hero","Alternate angle","Detail macro","Worn close-up","Worn half-body","Worn look","Dimensions","Care card"]
+              ["Material and care card","Materials, care and provenance"],
+              ["Material macro","Metal, stone and threadwork texture, generated once"]],
+      strip:["Hero","Alternate angle","Detail macro","Worn close-up","Worn half-body","Worn look","Dimensions","Care card","Material macro"]
     },
     GIRLS: {
       sku:[["Hero, invisible mannequin","The variant image and the catalogue feed image_link"],
@@ -1069,8 +1221,9 @@ object allowed in this image. Nobody in the image. No text of any kind.
            ["Flat lay","Whole shape at a glance"]],
       shared:[["Hanger","The garment hanging naturally"],
               ["Flat lay with measurements","Sizes by age, generated once"],
-              ["Fabric and care card","Composition, care and provenance"]],
-      strip:["Hero","Back","Neckline macro","Edge & hem macro","Flat lay","Hanger","Measurements","Care card"]
+              ["Fabric and care card","Composition, care and provenance"],
+              ["Embroidery macro","Stitch and thread texture, generated once"]],
+      strip:["Hero","Back","Neckline macro","Edge & hem macro","Flat lay","Hanger","Measurements","Care card","Embroidery macro"]
     }
   };
 
@@ -1081,7 +1234,7 @@ object allowed in this image. Nobody in the image. No text of any kind.
   function esc(s){ return String(s).replace(/[&<>"]/g, function(ch){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]; }); }
   function article(word){ return /^[aeiou]/i.test(word) ? "an " + word : "a " + word; }
 
-  var TPL_A = tpl("tpl-a"), TPL_B = tpl("tpl-b"), TPL_FIX0 = tpl("tpl-fix0");
+  var TPL_A = tpl("tpl-a"), TPL_B = tpl("tpl-b"), TPL_MACRO = tpl("tpl-macro"), TPL_FIX0 = tpl("tpl-fix0");
 
   function build(t){
     var cls = state.cls;
@@ -1099,6 +1252,7 @@ object allowed in this image. Nobody in the image. No text of any kind.
 
   var elA = document.getElementById("src-a");
   var elB = document.getElementById("src-b");
+  var elM = document.getElementById("src-macro");
   var elF = document.getElementById("src-fix0");
   var typeEl = document.getElementById("g-type");
   var wornEl = document.getElementById("g-worn");
@@ -1108,6 +1262,7 @@ object allowed in this image. Nobody in the image. No text of any kind.
   function renderPrompts(){
     elA.textContent = build(TPL_A);
     elB.textContent = build(TPL_B);
+    elM.textContent = build(TPL_MACRO);
     elF.textContent = build(TPL_FIX0);
     var cat = state.idx >= 0 ? CATS[state.idx] : null;
     if (state.cls && state.type.trim() && state.worn){
@@ -1133,8 +1288,8 @@ object allowed in this image. Nobody in the image. No text of any kind.
     });
     document.getElementById("shots-body").innerHTML = rows;
     document.getElementById("shots-sub").textContent = state.cls
-      ? "Showing the " + CLASS_NAME[state.cls] + " set. Five shots follow the colour; three are made once and shared."
-      : "Showing the apparel set until a category is pressed. Five shots follow the colour; three are made once and shared.";
+      ? "Showing the " + CLASS_NAME[state.cls] + " set. Five shots follow the colour; four are made once and shared."
+      : "Showing the apparel set until a category is pressed. Five shots follow the colour; four are made once and shared.";
     document.getElementById("strip").innerHTML = s.strip.map(function(label, i){
       return '<li class="' + (i < 5 ? "sku" : "prod") + '">' + esc(label) + '</li>';
     }).join("");
